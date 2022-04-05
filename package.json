@@ -8,7 +8,6 @@
     "typescript": "^4.6.2"
   },
   "dependencies": {
-    "dotenv": "^16.0.0",
     "fast-html-dom-parser": "^1.0.5"
   }
 }
