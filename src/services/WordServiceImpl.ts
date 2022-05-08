@@ -17,9 +17,9 @@ export default class extends WordService {
 
   public async findAll() {
     if (!this.cacheService.get("words")) {
-      const words: IWord[] = [];
+      const words: Record<string, IWord> = {};
 
-      for (let i = 1; i < 55; i++) {
+      for (let i = 1; i <= 80; i++) {
         const options = {
           hostname: "app.memrise.com",
           port: 443,
@@ -32,14 +32,25 @@ export default class extends WordService {
         const dom = this.parseService.parse(content);
         const rows = dom.getElementsByClassName("thing") as unknown as HTMLElement[];
         rows.forEach((row: HTMLElement) => {
-          words.push({
-            japanese: row.getElementsByClassName("col_a")[0].textContent,
-            english: row.getElementsByClassName("col_b")[0].textContent,
-          });
+          const japanese = row.getElementsByClassName("col_a")[0].textContent || "";
+
+          if (!words[japanese]) {
+            words[japanese] = {
+              japanese,
+              english: null,
+              kanji: null,
+            };
+          }
+
+          if (i <= 55) {
+            words[japanese].english = row.getElementsByClassName("col_b")[0].textContent;
+          } else {
+            words[japanese].kanji = row.getElementsByClassName("col_b")[0].textContent;
+          }
         });
       }
 
-      this.cacheService.set("words", JSON.stringify(words));
+      this.cacheService.set("words", JSON.stringify(Object.values(words)));
     }
 
     return JSON.parse(this.cacheService.get("words"));
