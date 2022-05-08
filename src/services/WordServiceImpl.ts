@@ -43,9 +43,9 @@ export default class extends WordService {
           }
 
           if (i <= 55) {
-            words[japanese].english = row.getElementsByClassName("col_b")[0].textContent;
+            words[japanese].english = row.getElementsByClassName("col_b")[0].textContent || "";
           } else {
-            words[japanese].kanji = row.getElementsByClassName("col_b")[0].textContent;
+            words[japanese].kanji = row.getElementsByClassName("col_b")[0].textContent || "";
           }
         });
       }
