@@ -37,8 +37,8 @@ export default class extends WordService {
           if (!words[japanese]) {
             words[japanese] = {
               japanese,
-              english: null,
-              kanji: null,
+              english: "",
+              kanji: "",
             };
           }
 
